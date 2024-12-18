@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function Register({ setRole, setUserId }) {
-  const [username, setUsername] = useState('');
+function Register({ setRole, setUserId, setUsername }) {
+  const [username, setLocalUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
@@ -14,6 +14,7 @@ function Register({ setRole, setUserId }) {
       const res = await axios.post('/api/register', { username, password }, { withCredentials: true });
       setRole(res.data.role); // Määrame kasutaja rolli
       setUserId(res.data.userId); // Määrame kasutaja ID
+      setUsername(username);
       alert('Registreerimine õnnestus!');
       navigate('/buses'); // Liikumine busside lehele
     } catch (err) {
@@ -29,7 +30,7 @@ function Register({ setRole, setUserId }) {
           type="text"
           placeholder="Kasutajanimi"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setLocalUsername(e.target.value)}
           required
           style={styles.authInput}
         />
